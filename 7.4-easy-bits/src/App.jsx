@@ -6,8 +6,10 @@ import {
   messagingAtom,
   networkAtom,
   notificationAtom,
-  refferals,
+  refferalsAtom,
+  totalNotificationSelector,
 } from "./atom";
+import { useMemo } from "react";
 
 function App() {
   const networkNotificationCount = useRecoilValue(networkAtom);
@@ -15,7 +17,26 @@ function App() {
   const notificationAtomCount = useRecoilValue(notificationAtom);
   const [messagingAtomCount, setMessagingAtomCount] =
     useRecoilState(messagingAtom);
-  const refferalAtomCount = useRecoilValue(refferals);
+  const refferalAtomCount = useRecoilValue(refferalsAtom);
+
+  // const totalNotificationCount = useMemo(() => {
+  //   return (
+  //     networkNotificationCount +
+  //     jobsAtomCount +
+  //     notificationAtomCount +
+  //     messagingAtomCount +
+  //     refferalAtomCount
+  //   );
+  // }, [
+  //   networkNotificationCount,
+  //   jobsAtomCount,
+  //   notificationAtomCount,
+  //   messagingAtomCount,
+  //   refferalAtomCount,
+  // ]);
+
+  const totalNotificationCount = useRecoilValue(totalNotificationSelector);
+
   return (
     <>
       <button>Home</button>
@@ -31,9 +52,9 @@ function App() {
 
       <button
         onClick={() => {
-          setMessagingAtomCount(messagingAtomCount + 1);
+          setMessagingAtomCount((c) => c + 1);
         }}>
-        Me
+        Me ({totalNotificationCount})
       </button>
     </>
   );
